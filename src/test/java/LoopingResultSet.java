@@ -19,8 +19,13 @@ public class LoopingResultSet {
 
             rs.beforeFirst();
             while ((rs.next())){
+                System.out.println("ROW NUMBER IS "+ rs.getRow());
                 System.out.println(rs.getString(1) + " | " + rs.getString(2));
             }
+
+            rs.last();
+            System.out.println("ROW NUMBER IS "+ rs.getRow());
+
 
         } catch (SQLException e) {
             System.out.println("Error Has Occurred " + e.getMessage());
