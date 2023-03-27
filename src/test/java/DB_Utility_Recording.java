@@ -167,6 +167,22 @@ public class DB_Utility_Recording {
 
     }
 
+    public static List<String> getColumnDataAsList(String columnName){
+        List<String> columnDataList = new ArrayList<>();
+
+        try {
+            rs.beforeFirst();
+            while (rs.next()) {
+                String cellValue =rs.getString(columnName);
+                columnDataList.add(cellValue);
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR WHILE GETTING getColumnDataAsList " + e.getMessage());
+        }
+        return columnDataList;
+
+    }
+
 
 
         public static void main(String[] args) throws SQLException {
@@ -184,9 +200,10 @@ public class DB_Utility_Recording {
         System.out.println(getRowDataAsList(3));
 
         System.out.println("3rd row 2nd column "+ getColumnDataAtRow(3,2));
-        System.out.println("3rd row 2nd column "+ getColumnDataAtRow(3,2));
+        System.out.println("3rd row 2nd column "+ getColumnDataAtRow(3,"REGION_NAME"));
 
         System.out.println("1st column as list "+ getColumnDataAsList(1));
+        System.out.println("1st column as list "+ getColumnDataAsList("REGION_ID"));
 
 
 
