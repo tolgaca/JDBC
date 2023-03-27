@@ -112,13 +112,64 @@ public class DB_Utility_Recording {
                 rowDataList.add(cellValue);
 
             }
+            rs.beforeFirst();
+
         } catch (SQLException e) {
             System.out.println("ERROR WHILE GETTING RowDataAsList " + e.getMessage());
         }
         return rowDataList;
     }
 
-    public static void main(String[] args) throws SQLException {
+    public static String getColumnDataAtRow (int rowNum, int columnIndex){
+        String result = "";
+
+        try {
+            rs.absolute(rowNum);
+            result = rs.getString(columnIndex);
+            rs.beforeFirst();
+
+        } catch (SQLException e) {
+            System.out.println("ERROR WHILE GETTING getColumnDataAtRow " + e.getMessage());
+
+        }
+
+        return result;
+    }
+
+    public static String getColumnDataAtRow (int rowNum, String columnName){
+        String result = "";
+
+        try {
+            rs.absolute(rowNum);
+            result = rs.getString(columnName);
+
+            rs.beforeFirst();
+        } catch (SQLException e) {
+            System.out.println("ERROR WHILE GETTING getColumnDataAtRow " + e.getMessage());
+        }
+
+        return result;
+    }
+
+    public static List<String> getColumnDataAsList(int columnIndex){
+        List<String> columnDataList = new ArrayList<>();
+
+        try {
+            rs.beforeFirst();
+            while (rs.next()) {
+                String cellValue =rs.getString(columnIndex);
+                columnDataList.add(cellValue);
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR WHILE GETTING getColumnDataAsList " + e.getMessage());
+        }
+        return columnDataList;
+
+    }
+
+
+
+        public static void main(String[] args) throws SQLException {
 
         createConnection();
         ResultSet myResult = runQuery("SELECT * FROM REGIONS");
@@ -131,6 +182,13 @@ public class DB_Utility_Recording {
         System.out.println(getColumnNames());
 
         System.out.println(getRowDataAsList(3));
+
+        System.out.println("3rd row 2nd column "+ getColumnDataAtRow(3,2));
+        System.out.println("3rd row 2nd column "+ getColumnDataAtRow(3,2));
+
+        System.out.println("1st column as list "+ getColumnDataAsList(1));
+
+
 
 
         destroy();
