@@ -1,6 +1,8 @@
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DB_Utility_Recording {
 
@@ -197,13 +199,35 @@ public class DB_Utility_Recording {
         }
     }
 
+    public static Map<String,String> getRowMap (int rowNum){
+        Map<String,String> rowMap = new LinkedHashMap<>();
+
+        try {
+            rs.absolute(rowNum);
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            for (int colNum = 1; colNum <= getColumnCNT(); colNum++) {
+
+                String colName = rsmd.getColumnLabel(colNum);
+                String cellValue = rs.getString(colNum);
+                rowMap.put(colName,cellValue);
+
+            }
+            rs.beforeFirst();
+        } catch (SQLException e) {
+            System.out.println("ERROR AT ROW MAP FUNCTION " + e.getMessage());
+        }
+        return rowMap ;
+    }
 
 
         public static void main(String[] args) throws SQLException {
 
         createConnection();
-        ResultSet myResult = runQuery("SELECT * FROM REGIONS");
+        ResultSet myResult = runQuery("SELECT * FROM EMPLOYEES");
+       /*
         rs.next();
+
         System.out.println(rs.getString(1));
 
         System.out.println(getRowCount());
@@ -221,9 +245,14 @@ public class DB_Utility_Recording {
 
         displayAllData();
 
+*/
+
+        System.out.println(getRowMap(3));
+            Map<String,String> thirdRowMap = new LinkedHashMap<>();
 
 
-        destroy();
+
+            destroy();
 
     }
 }
