@@ -6,9 +6,9 @@ import java.util.Map;
 
 public class DB_Utility_Recording {
 
-    static Connection conn;
-    static Statement stmt;
-    static ResultSet rs;
+    private static Connection conn;
+    private static Statement stmt;
+    private static ResultSet rs;
 
     public  static  void createConnection(){
         String url = "jdbc:oracle:thin:@54.236.150.168:1521:XE";
@@ -229,8 +229,11 @@ public class DB_Utility_Recording {
         return  rowMapList;
     }
 
+    public static String getFirstData(){
+        return  getColumnDataAtRow(1,1);
+    }
 
-        public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException {
 
         createConnection();
         ResultSet myResult = runQuery("SELECT * FROM EMPLOYEES");
