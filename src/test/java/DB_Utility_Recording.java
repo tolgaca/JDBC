@@ -220,6 +220,15 @@ public class DB_Utility_Recording {
         return rowMap ;
     }
 
+    public static List<Map<String, String> > getAllDataAsListOfMap() {
+       List<Map<String, String> > rowMapList = new ArrayList<>();
+
+        for (int rowNum = 1; rowNum <= getRowCount(); rowNum++) {
+            rowMapList.add(getRowMap(rowNum));
+        }
+        return  rowMapList;
+    }
+
 
         public static void main(String[] args) throws SQLException {
 
@@ -248,11 +257,14 @@ public class DB_Utility_Recording {
 */
 
         System.out.println(getRowMap(3));
-            Map<String,String> thirdRowMap = new LinkedHashMap<>();
+        Map<String,String> thirdRowMap = getRowMap(3);
+
+        System.out.println("get the last name " +thirdRowMap.get("LAST_NAME"));
+
+        System.out.println(getAllDataAsListOfMap());
 
 
-
-            destroy();
+        destroy();
 
     }
 }
