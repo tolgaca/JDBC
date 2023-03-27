@@ -101,7 +101,22 @@ public class DB_Utility_Recording {
     }
 
 
+    public static List<String> getRowDataAsList(int rowNum){
+        List<String> rowDataList = new ArrayList<>();
 
+        try {
+            rs.absolute(rowNum);
+            for (int colNum = 1; colNum <= getColumnCNT(); colNum++) {
+
+                String cellValue = rs.getString(colNum);
+                rowDataList.add(cellValue);
+
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR WHILE GETTING RowDataAsList " + e.getMessage());
+        }
+        return rowDataList;
+    }
 
     public static void main(String[] args) throws SQLException {
 
@@ -114,6 +129,9 @@ public class DB_Utility_Recording {
         System.out.println(getColumnCNT());
 
         System.out.println(getColumnNames());
+
+        System.out.println(getRowDataAsList(3));
+
 
         destroy();
 
