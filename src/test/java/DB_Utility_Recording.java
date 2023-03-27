@@ -183,6 +183,20 @@ public class DB_Utility_Recording {
 
     }
 
+    public static void displayAllData(){
+        try {
+            rs.beforeFirst();
+            while (rs.next()){
+                for (int colNum = 1; colNum <= getColumnCNT(); colNum++) {
+                    System.out.print(rs.getString(colNum)+ " \t");
+                }
+                System.out.println();
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR WHILE Display All Data " + e.getMessage());
+        }
+    }
+
 
 
         public static void main(String[] args) throws SQLException {
@@ -205,6 +219,7 @@ public class DB_Utility_Recording {
         System.out.println("1st column as list "+ getColumnDataAsList(1));
         System.out.println("1st column as list "+ getColumnDataAsList("REGION_ID"));
 
+        displayAllData();
 
 
 
