@@ -1,4 +1,6 @@
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DB_Utility_Recording {
 
@@ -26,7 +28,7 @@ public class DB_Utility_Recording {
              stmt= conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
              rs = stmt.executeQuery(query);
         } catch (SQLException e) {
-            System.out.println("ERROR WHILE GETTING RESULTSET");
+            System.out.println("ERROR WHILE GETTING RESULT SET");
         }
         return rs;
     }
@@ -51,12 +53,54 @@ public class DB_Utility_Recording {
 
     }
 
-    public  static int getRowCount(){
+    public static int getRowCount(){
 
         int rowCount = 0;
-        rs.last();
+        try {
+            rs.last();
+            rowCount=rs.getRow();
+            rs.beforeFirst();
+        } catch (SQLException e) {
+            System.out.println("ERROR WHILE GETTING ROW COUNT " + e.getMessage());
+        }
+
+        return rowCount;
 
     }
+
+    public static int getColumnCNT(){
+        int colCount = 0;
+        try {
+            ResultSetMetaData rsmd = rs.getMetaData();
+            colCount = rsmd.getColumnCount();
+        } catch (SQLException e) {
+            System.out.println("ERROR WHILE GETTING THE COLUMNS " + e.getMessage());
+        }
+        return colCount;
+    }
+
+
+    public static List<String> getColumnNames(){
+
+        List<String> colNameList = new ArrayList<>();
+
+        try {
+            ResultSetMetaData rsmd = rs.getMetaData();
+            for (int colNum = 1; colNum <= rsmd.getColumnCount(); colNum++) {
+
+                String colName = rsmd.getColumnName(colNum);
+                colNameList.add(colName);
+
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR WHILE GETTING COLUMN NAMES " + e.getMessage());
+        }
+
+
+        return colNameList;
+    }
+
+
 
 
     public static void main(String[] args) throws SQLException {
@@ -65,6 +109,11 @@ public class DB_Utility_Recording {
         ResultSet myResult = runQuery("SELECT * FROM REGIONS");
         rs.next();
         System.out.println(rs.getString(1));
+
+        System.out.println(getRowCount());
+        System.out.println(getColumnCNT());
+
+        System.out.println(getColumnNames());
 
         destroy();
 
